@@ -1,9 +1,9 @@
 util.js
 =======
-util.js v.1.1
-Copyright (c) 2012 SHIFTBRAIN Inc.
-Licensed under the MIT license.
-https://github.com/devjam
+util.js v.1.1  
+Copyright (c) 2012 SHIFTBRAIN Inc.  
+Licensed under the MIT license.  
+https://github.com/devjam  
 
 ## REQUIRE:
 jquery.js
