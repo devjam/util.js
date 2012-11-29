@@ -163,7 +163,7 @@ class @Util
 		win = $ window
 		doc = $ document
 		width = 0
-		heigth = 0
+		height = 0
 		pageWidth = 0
 		pageHeight = 0
 		resizeCallbacks = []
