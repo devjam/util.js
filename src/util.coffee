@@ -75,6 +75,7 @@ class @Util
 			
 		if ua.isIE = /msie (\d+)/.test _ua
 			ver = RegExp.$1
+			ver *= 1
 			ua.isIE6 = ver == 6
 			ua.isIE7 = ver == 7
 			ua.isIE8 = ver == 8
@@ -213,6 +214,7 @@ class @Util
 			if isReset
 				resizeCallbacks = []
 			return
+
 	
 	)()
 

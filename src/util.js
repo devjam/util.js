@@ -42,7 +42,6 @@ Util.window.unbindResize(callback, isReset = false):void (isReset is unbind all)
 Util.array.setRemove(Array = Array.prototype):Bool
 */
 
-
 (function() {
 
   if (this.console == null) {
@@ -82,6 +81,7 @@ Util.array.setRemove(Array = Array.prototype):Bool
       };
       if (ua.isIE = /msie (\d+)/.test(_ua)) {
         ver = RegExp.$1;
+        ver *= 1;
         ua.isIE6 = ver === 6;
         ua.isIE7 = ver === 7;
         ua.isIE8 = ver === 8;
@@ -174,7 +174,7 @@ Util.array.setRemove(Array = Array.prototype):Bool
     })();
 
     Util.window = (function() {
-      var doc, heigth, isUpdate, onResize, pageHeight, pageWidth, resizeCallbacks, width, win;
+      var doc, height, isUpdate, onResize, pageHeight, pageWidth, resizeCallbacks, width, win;
       win = $(window);
       doc = $(document);
       width = 0;
@@ -194,7 +194,6 @@ Util.array.setRemove(Array = Array.prototype):Bool
       };
       win.resize(onResize);
       $(function() {
-        var height;
         width = win.width();
         height = win.height();
         pageWidth = doc.width();
@@ -202,7 +201,6 @@ Util.array.setRemove(Array = Array.prototype):Bool
       });
       return {
         size: function(withUpdate) {
-          var height;
           if (withUpdate == null) {
             withUpdate = false;
           }
