@@ -42,8 +42,8 @@ Util.UA.isSmartPhone : Bool
 Util.venderPrefix : String  
 
 ### Util.stats
-Util.stats.show() : void
-Util.stats.remove() : void
+Util.stats.show() : void  
+Util.stats.remove() : void  
 
 ### Util.animationFrameDelta
 Util.animationFrameDelta : Number  
