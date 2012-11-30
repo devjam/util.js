@@ -1,5 +1,5 @@
 /*
-util.js v.1.1
+util.js v1.2
 Copyright (c) 2012 SHIFTBRAIN Inc.
 Licensed under the MIT license.
 
@@ -30,6 +30,9 @@ Util.UA.isSmartPhone		: Bool
 
 Util.venderPrefix				:String
 
+Util.stats.show()				:void
+Util.stats.remove()				:void
+
 Util.animationFrameDelta:Number
 Util.animationFrameDelta.setDelta():void
 
@@ -41,6 +44,7 @@ Util.window.unbindResize(callback, isReset = false):void (isReset is unbind all)
 
 Util.array.setRemove(Array = Array.prototype):Bool
 */
+
 
 (function() {
 
@@ -126,6 +130,44 @@ Util.array.setRemove(Array = Array.prototype):Bool
         return "-o-";
       }
       return "";
+    })();
+
+    Util.stats = (function() {
+      var sts, stsTimer, update;
+      sts = null;
+      stsTimer = null;
+      update = function() {
+        if (!(typeof Stats !== "undefined" && Stats !== null) || !(sts != null)) {
+          return false;
+        }
+        stsTimer = requestAnimationFrame(update);
+        return sts.update();
+      };
+      return {
+        show: function(mode) {
+          if (mode == null) {
+            mode = 0;
+          }
+          if (!(typeof Stats !== "undefined" && Stats !== null) || (sts != null) || Util.UA.isLtIE9) {
+            return false;
+          }
+          sts = new Stats();
+          sts.setMode(mode);
+          document.body.appendChild(sts.domElement);
+          sts.domElement.style.cssText = "position:fixed; top:0; left:0; z-index:9999999;";
+          return update();
+        },
+        remove: function() {
+          if (!(typeof Stats !== "undefined" && Stats !== null) || !(sts != null)) {
+            return false;
+          }
+          if (stsTimer != null) {
+            cancelAnimationFrame(stsTimer);
+          }
+          document.body.removeChild(sts.domElement);
+          return sts = null;
+        }
+      };
     })();
 
     Util.animationFrameDelta = 0;

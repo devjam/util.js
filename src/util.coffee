@@ -1,5 +1,5 @@
 ###
-util.js v.1.1
+util.js v1.2
 Copyright (c) 2012 SHIFTBRAIN Inc.
 Licensed under the MIT license.
 
@@ -29,6 +29,9 @@ Util.UA.isTablet				: Bool
 Util.UA.isSmartPhone		: Bool
 
 Util.venderPrefix				:String
+
+Util.stats.show()				:void
+Util.stats.remove()				:void
 
 Util.animationFrameDelta:Number
 Util.animationFrameDelta.setDelta():void
@@ -108,6 +111,33 @@ class @Util
 		if Util.UA.isMozilla then return "-moz-"
 		if Util.UA.isOpera then return "-o-"
 		""
+	)()
+
+	@stats = (->
+		sts = null
+		stsTimer = null
+		update = ->
+			if !Stats? or !sts?
+				return false
+			stsTimer = requestAnimationFrame update
+			sts.update()
+
+		show: (mode = 0) ->
+			if !Stats? or sts? or Util.UA.isLtIE9
+				return false
+			sts = new Stats()
+			sts.setMode(mode)
+			document.body.appendChild( sts.domElement )
+			sts.domElement.style.cssText = "position:fixed; top:0; left:0; z-index:9999999;"
+			update()
+
+		remove: ->
+			if !Stats? or !sts?
+				return false
+			if stsTimer?
+				cancelAnimationFrame(stsTimer)
+			document.body.removeChild( sts.domElement )
+			sts = null
 	)()
 
 	@animationFrameDelta = 0
