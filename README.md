@@ -8,6 +8,9 @@ https://github.com/devjam
 ## REQUIRE:
 jquery.js
 
+## ADDITIONAL:
+stats.js
+
 ---
 
 ## USAGE
@@ -38,6 +41,10 @@ Util.UA.isSmartPhone : Bool
 ### Util.venderPrefix
 Util.venderPrefix : String  
 
+### Util.stats
+Util.stats.show() : void
+Util.stats.remove() : void
+
 ### Util.animationFrameDelta
 Util.animationFrameDelta : Number  
 Util.animationFrameDelta.setDelta() : void  
@@ -59,6 +66,9 @@ console.logでエラーが出る場合の対策
 ---
 
 ## HISTORY
+_2012.11.30_  
+- Util.stats 追加
+
 _2012.11.28_  
 - とりあえずアップ。
 - Util.array 追加
