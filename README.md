@@ -66,6 +66,10 @@ console.logでエラーが出る場合の対策
 ---
 
 ## HISTORY
+_2012.12.13 : v1.2.1_  
+- Util.UA 修正(min版のバグfix)
+- requestAnimationFrame にcallback追加時多重登録修正
+
 _2012.11.30 : v1.2_  
 - Util.stats 追加
 
