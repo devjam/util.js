@@ -1,5 +1,5 @@
 /*
-util.js v1.2
+util.js v1.2.1
 Copyright (c) 2012 SHIFTBRAIN Inc.
 Licensed under the MIT license.
 
@@ -31,7 +31,7 @@ Util.UA.isSmartPhone		: Bool
 Util.venderPrefix				:String
 
 Util.stats.show()				:void
-Util.stats.remove()				:void
+Util.stats.remove()			:void
 
 Util.animationFrameDelta:Number
 Util.animationFrameDelta.setDelta():void
@@ -83,7 +83,7 @@ Util.array.setRemove(Array = Array.prototype):Bool
         isSmartPhone: false,
         browser: _ua
       };
-      if (ua.isIE = /msie (\d+)/.test(_ua)) {
+      if (ua.isIE = /msie\s(\d+)/.test(_ua)) {
         ver = RegExp.$1;
         ver *= 1;
         ua.isIE6 = ver === 6;
@@ -203,7 +203,13 @@ Util.array.setRemove(Array = Array.prototype):Bool
                 }
               }, 16);
             }
-            callbacks.push(callback);
+            if ($.inArray != null) {
+              if (typeof callback === "function" && $.inArray(callback, callbacks) === -1) {
+                callbacks.push(callback);
+              }
+            } else {
+              callbacks.push(callback);
+            }
             return id;
           };
         })();
