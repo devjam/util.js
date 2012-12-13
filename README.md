@@ -1,6 +1,6 @@
 util.js
 =======
-util.js v1.2  
+util.js v1.2.1  
 Copyright (c) 2012 SHIFTBRAIN Inc.  
 Licensed under the MIT license.  
 https://github.com/devjam  
