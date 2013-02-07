@@ -76,7 +76,7 @@ Util.array.setQuery(Array = Array.prototype) : Bool (add "q(id)" method)
 Util.QueryString():Object
 
 ### debug
-debug.log(value)					: void (console.log)
+debug.log(value)					: void (console.log)  
 debug.active(Bool = true) : Bool  
 
 ### console
