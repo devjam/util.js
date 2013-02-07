@@ -1,48 +1,66 @@
 /*
-util.js v1.2.1
-Copyright (c) 2012 SHIFTBRAIN Inc.
+util.js v1.2.4
+Copyright (c) 2013 SHIFTBRAIN Inc.
 Licensed under the MIT license.
 
 https://github.com/devjam
 
-Util.UA.browser					: String
-Util.UA.isIE						: Bool
-Util.UA.isIE6						: Bool
-Util.UA.isIE7						: Bool
-Util.UA.isIE8						: Bool
-Util.UA.isIE9						: Bool
-Util.UA.isLtIE9					: Bool
-Util.UA.isIOS						: Bool
-Util.UA.isIPhone				: Bool
-Util.UA.isIPad					: Bool
-Util.UA.isIPhone4				: Bool
-Util.UA.isIPad3					: Bool
-Util.UA.isAndroid				: Bool
-Util.UA.isAndroidMobile	: Bool
-Util.UA.isChrome				: Bool
-Util.UA.isSafari				: Bool
-Util.UA.isMozilla				: Bool
-Util.UA.isWebkit				: Bool
-Util.UA.isOpera					: Bool
-Util.UA.isPC						: Bool
-Util.UA.isTablet				: Bool
-Util.UA.isSmartPhone		: Bool
+Util.UA.browser         : String
+Util.UA.isIE            : Bool
+Util.UA.isIE6           : Bool
+Util.UA.isIE7           : Bool
+Util.UA.isIE8           : Bool
+Util.UA.isIE9           : Bool
+Util.UA.isLtIE9         : Bool
+Util.UA.isIOS           : Bool
+Util.UA.isIPhone        : Bool
+Util.UA.isIPad          : Bool
+Util.UA.isIPhone4       : Bool
+Util.UA.isIPad3         : Bool
+Util.UA.isAndroid       : Bool
+Util.UA.isAndroidMobile : Bool
+Util.UA.isChrome        : Bool
+Util.UA.isSafari        : Bool
+Util.UA.isMozilla       : Bool
+Util.UA.isWebkit        : Bool
+Util.UA.isOpera         : Bool
+Util.UA.isPC            : Bool
+Util.UA.isTablet        : Bool
+Util.UA.isSmartPhone    : Bool
 
-Util.venderPrefix				:String
+Util.venderPrefix       :String
 
-Util.stats.show()				:void
-Util.stats.remove()			:void
+Util.stats.show()       :void
+Util.stats.remove()     :void
 
-Util.animationFrameDelta:Number
-Util.animationFrameDelta.setDelta():void
+Util.animationFrameDelta            :Number
+Util.animationFrameDelta.setDelta() :void
 
-Util.window.onResize()									:void (trigger resize event)
-Util.window.size(withUpdate = false)		:{width:Integer, height:Integer}
-Util.window.pageSize(withUpdate = false):{width:Integer, height:Integer}
-Util.window.bindResize(callback)				:void
-Util.window.unbindResize(callback, isReset = false):void (isReset is unbind all)
+Util.window.onResize()                              :void (trigger resize event)
+Util.window.size(withUpdate = false)                :{width:Integer, height:Integer}
+Util.window.pageSize(withUpdate = false)            :{width:Integer, height:Integer}
+Util.window.scrollTop()                             :Number
+Util.window.scrollBottom()                          :Number
+Util.window.bindResize(callback)                    :void
+Util.window.unbindResize(callback, isReset = false) :void (isReset is unbind all)
 
-Util.array.setRemove(Array = Array.prototype):Bool
+Util.cursor.over                                  :"mouseenter touchstart"
+Util.cursor.out                                   :"mouseleave touchend"
+Util.cursor.down                                  :"mousedown touchstart"
+Util.cursor.move                                  :"mousemove touchmouve"
+Util.cursor.up                                    :"mouseup touchend"
+Util.cursor.click                                 :"mouseup touchend"
+Util.cursor.clientXY(e:MouseEvent or TouchEvent)  :{x:Number, y:Number}
+Util.cursor.pageXY(e:MouseEvent or TouchEvent)    :{x:Number, y:Number}
+
+Util.array.setRemove(Array = Array.prototype) :Bool ary.remove(value)
+Util.array.setQuery(Array = Array.prototype)  :Bool ary.q(id)
+
+Util.QueryString():Object
+
+## debug
+debug.log(value)          : void
+debug.active(Bool = true) : Bool
 */
 
 
@@ -276,6 +294,18 @@ Util.array.setRemove(Array = Array.prototype):Bool
             height: pageHeight
           };
         },
+        scrollTop: function() {
+          if (window.pageYOffset != null) {
+            return window.pageYOffset;
+          }
+          return win.scrollTop();
+        },
+        scrollBottom: function() {
+          if (window.pageYOffset != null) {
+            return window.pageYOffset + window.innerHeight;
+          }
+          return win.scrollTop() + height;
+        },
         bindResize: function(callback) {
           if (typeof callback === "function" && $.inArray(callback, resizeCallbacks) === -1) {
             resizeCallbacks.push(callback);
@@ -292,6 +322,61 @@ Util.array.setRemove(Array = Array.prototype):Bool
           if (isReset) {
             resizeCallbacks = [];
           }
+        }
+      };
+    })();
+
+    Util.cursor = (function() {
+      var c,
+        _this = this;
+      return c = {
+        over: "mouseenter touchstart",
+        out: "mouseleave touchend",
+        down: "mousedown touchstart",
+        move: "mousemove touchmouve",
+        up: "mouseup touchend",
+        click: "mouseup touchend",
+        clientXY: function(e) {
+          var pos;
+          pos = {
+            x: 0,
+            y: 0
+          };
+          if (e != null) {
+            if ("ontouchstart" in window) {
+              if (e.touches != null) {
+                e = e.touches[0];
+              } else {
+                e = e.originalEvent.touches[0];
+              }
+            }
+            if (e.clientX != null) {
+              pos.x = e.clientX;
+              pos.y = e.clientY;
+            }
+          }
+          return pos;
+        },
+        pageXY: function(e) {
+          var pos;
+          pos = {
+            x: 0,
+            y: 0
+          };
+          if (e != null) {
+            if ("ontouchstart" in window) {
+              if (e.touches != null) {
+                e = e.touches[0];
+              } else {
+                e = e.originalEvent.touches[0];
+              }
+            }
+            if (e.pageX != null) {
+              pos.x = e.pageX;
+              pos.y = e.pageY;
+            }
+          }
+          return pos;
         }
       };
     })();
@@ -329,15 +414,115 @@ Util.array.setRemove(Array = Array.prototype):Bool
             return this.length;
           };
           return true;
+        },
+        setQuery: function(ary) {
+          if (ary == null) {
+            ary = Array.prototype;
+          } else {
+            if (!(ary instanceof Array)) {
+              return false;
+            }
+          }
+          if (ary.remove != null) {
+            return false;
+          }
+          ary.q = function(key, value) {
+            var ary_match, i, item, l;
+            if (value == null) {
+              value = key;
+              key = "id";
+            }
+            ary_match = [];
+            i = 0;
+            l = this.length;
+            while (i < l) {
+              item = this[i];
+              if (item[key] === value) {
+                ary_match.push(item);
+              }
+              i++;
+            }
+            if (ary_match.length === 1) {
+              return ary_match[0];
+            } else {
+              return ary_match;
+            }
+          };
+          return true;
         }
       };
     })();
+
+    Util.QueryString = (function(a) {
+      var ary, data, i, l, n, value;
+      if (a == null) {
+        return {};
+      }
+      data = {};
+      value = [];
+      i = 0;
+      l = a.length;
+      n = 0;
+      while (i < l) {
+        ary = a[i].split('=');
+        if (ary.length === 1 || ary[0] === "value") {
+          value.push(decodeURIComponent(ary[0].replace(/\+/g, " ")));
+        } else if (ary.length === 2) {
+          data[ary[0]] = decodeURIComponent(ary[1].replace(/\+/g, " "));
+          n++;
+        }
+        i++;
+      }
+      if (value.length > 0) {
+        if (value.length === 1) {
+          if (n === 0) {
+            return value[0];
+          } else {
+            data["value"] = value[0];
+          }
+        } else {
+          if (n === 0) {
+            return value;
+          } else {
+            data["value"] = value;
+          }
+        }
+      }
+      return data;
+    })(window.location.search.substr(1).split('&'));
 
     function Util() {
       throw new Error('it is static class');
     }
 
     return Util;
+
+  })();
+
+  this.debug = (function() {
+    var mode;
+
+    mode = false;
+
+    debug.log = function(v) {
+      if (mode) {
+        console.log(v);
+      }
+      return false;
+    };
+
+    debug.active = function(flg) {
+      if (flg == null) {
+        flg = true;
+      }
+      return mode = new Boolean(flg);
+    };
+
+    function debug() {
+      throw new Error('it is static class');
+    }
+
+    return debug;
 
   })();
 

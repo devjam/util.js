@@ -1,7 +1,7 @@
 util.js
 =======
-util.js v1.2.1  
-Copyright (c) 2012 SHIFTBRAIN Inc.  
+util.js v1.2.4  
+Copyright (c) 2013 SHIFTBRAIN Inc.  
 Licensed under the MIT license.  
 https://github.com/devjam  
 
@@ -53,19 +53,47 @@ Util.animationFrameDelta.setDelta() : void
 Util.window.onResize() : void (trigger resize event)  
 Util.window.size(withUpdate = false) : {width:Integer, height:Integer}  
 Util.window.pageSize(withUpdate = false) : {width:Integer, height:Integer}  
+Util.window.scrollTop() : Number  
+Util.window.scrollBottom() : Number  
 Util.window.bindResize(callback) : void  
 Util.window.unbindResize(callback, isReset = false) : void (isReset is unbind all)  
 
+### Util.cursor
+Util.cursor.over : "mouseenter touchstart"  
+Util.cursor.out : "mouseleave touchend"  
+Util.cursor.down : "mousedown touchstart"  
+Util.cursor.move : "mousemove touchmouve"  
+Util.cursor.up : "mouseup touchend"  
+Util.cursor.click : "mouseup touchend"  
+Util.cursor.clientXY(MouseEvent or TouchEvent) : {x:Number, y:Number}  
+Util.cursor.pageXY(MouseEvent or TouchEvent) : {x:Number, y:Number}  
+
 ### Util.array
 Util.array.setRemove(Array = Array.prototype) : Bool (add "remove" method)  
+Util.array.setQuery(Array = Array.prototype) : Bool (add "q(id)" method)  
+
+### Util.QueryString
+Util.QueryString():Object
+
+### debug
+debug.log(value)					: void (console.log)
+debug.active(Bool = true) : Bool  
 
 ### console
 consoleが無い場合に空のオブジェクト作成  
 console.logでエラーが出る場合の対策
 
+
 ---
 
 ## HISTORY
+_2013.02.07 : v1.2.4_  
+- Util.window.scrollTop()追加  
+- Util.window.scrollBottom()追加  
+- Util.cursor追加  
+- Util.array.setQuery追加  
+- debug追加  
+
 _2012.12.13 : v1.2.1_  
 - Util.UA 修正(min版のバグfix)
 - requestAnimationFrame にcallback追加時多重登録修正

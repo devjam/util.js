@@ -1,6 +1,6 @@
 ###
-util.js v1.2.1
-Copyright (c) 2012 SHIFTBRAIN Inc.
+util.js v1.2.4
+Copyright (c) 2013 SHIFTBRAIN Inc.
 Licensed under the MIT license.
 
 https://github.com/devjam
@@ -33,16 +33,35 @@ Util.venderPrefix				:String
 Util.stats.show()				:void
 Util.stats.remove()			:void
 
-Util.animationFrameDelta:Number
-Util.animationFrameDelta.setDelta():void
+Util.animationFrameDelta						:Number
+Util.animationFrameDelta.setDelta()	:void
 
-Util.window.onResize()									:void (trigger resize event)
-Util.window.size(withUpdate = false)		:{width:Integer, height:Integer}
-Util.window.pageSize(withUpdate = false):{width:Integer, height:Integer}
-Util.window.bindResize(callback)				:void
-Util.window.unbindResize(callback, isReset = false):void (isReset is unbind all)
+Util.window.onResize()															:void (trigger resize event)
+Util.window.size(withUpdate = false)								:{width:Integer, height:Integer}
+Util.window.pageSize(withUpdate = false)						:{width:Integer, height:Integer}
+Util.window.scrollTop()															:Number
+Util.window.scrollBottom()													:Number
+Util.window.bindResize(callback)										:void
+Util.window.unbindResize(callback, isReset = false)	:void (isReset is unbind all)
 
-Util.array.setRemove(Array = Array.prototype):Bool
+Util.cursor.over																	:"mouseenter touchstart"
+Util.cursor.out 																	:"mouseleave touchend"
+Util.cursor.down 																	:"mousedown touchstart"
+Util.cursor.move 																	:"mousemove touchmouve"
+Util.cursor.up 																		:"mouseup touchend"
+Util.cursor.click 																:"mouseup touchend"
+Util.cursor.clientXY(e:MouseEvent or TouchEvent)	:{x:Number, y:Number}
+Util.cursor.pageXY(e:MouseEvent or TouchEvent)		:{x:Number, y:Number}
+
+Util.array.setRemove(Array = Array.prototype)	:Bool ary.remove(value)
+Util.array.setQuery(Array = Array.prototype)	:Bool ary.q(id)
+
+Util.QueryString():Object
+
+## debug
+debug.log(value)					: void
+debug.active(Bool = true) : Bool
+
 ###
 
 unless @console?
@@ -236,6 +255,16 @@ class @Util
 			width: pageWidth
 			height: pageHeight
 
+		scrollTop: ->
+			if window.pageYOffset?
+				return window.pageYOffset
+			return win.scrollTop()
+
+		scrollBottom: ->
+			if window.pageYOffset?
+				return window.pageYOffset + window.innerHeight
+			return win.scrollTop() + height
+
 		bindResize: (callback)->
 			if typeof callback == "function" && $.inArray(callback, resizeCallbacks) == -1
 				resizeCallbacks.push callback
@@ -248,7 +277,42 @@ class @Util
 				resizeCallbacks = []
 			return
 
-	
+	)()
+
+	@cursor = (->
+		c =
+			over : "mouseenter touchstart"
+			out : "mouseleave touchend"
+			down : "mousedown touchstart"
+			move : "mousemove touchmouve"
+			up : "mouseup touchend"
+			click : "mouseup touchend"
+
+			clientXY : (e)=>
+				pos = {x:0, y:0}
+				if e?
+					if "ontouchstart" of window
+						if e.touches?
+							e = e.touches[0]
+						else
+							e = e.originalEvent.touches[0]
+					if e.clientX?
+						pos.x = e.clientX
+						pos.y = e.clientY
+				return pos
+
+			pageXY : (e)=>
+				pos = {x:0, y:0}
+				if e?
+					if "ontouchstart" of window
+						if e.touches?
+							e = e.touches[0]
+						else
+							e = e.originalEvent.touches[0]
+					if e.pageX?
+						pos.x = e.pageX
+						pos.y = e.pageY
+				return pos
 	)()
 
 	@array = (->
@@ -263,6 +327,7 @@ class @Util
 				return false
 
 			ary.remove = ->
+				# BUG：IE で thisがarrayでなく functionになってしまう
 				l = arguments.length
 				i = 0
 				while i < l
@@ -277,7 +342,81 @@ class @Util
 					i++
 				@.length
 			true
+
+		setQuery: (ary)->
+			unless ary?
+				ary = Array.prototype
+			else 
+				unless ary instanceof Array
+					return false		
+			
+			if ary.remove?
+				return false
+
+			ary.q = (key, value)->
+				# BUG：IE で thisがarrayでなく functionになってしまう
+				unless value?
+					value = key
+					key = "id"
+				ary_match =[]
+				i = 0
+				l = @.length
+				while i < l
+					item = @[i]
+					if item[key] == value
+						ary_match.push(item)
+					i++
+
+				if ary_match.length == 1
+					return ary_match[0]
+				else
+					return ary_match
+			true
 	)()
+
+	@QueryString = ((a)->
+		unless a?
+			return {}
+		data = {}
+		value = []
+		i = 0
+		l = a.length
+		n = 0
+		while i < l
+			ary = a[i].split('=')
+			if ary.length == 1 or ary[0] == "value"
+				value.push(decodeURIComponent(ary[0].replace(/\+/g, " ")))
+			else if ary.length == 2
+				data[ary[0]] = decodeURIComponent(ary[1].replace(/\+/g, " "))
+				n++
+			i++
+		if value.length > 0
+			if value.length == 1
+				if n == 0
+					return value[0]
+				else
+					data["value"] = value[0]
+			else
+				if n == 0
+					return value
+				else
+					data["value"] = value
+		return data
+	)(window.location.search.substr(1).split('&'))
+
+	constructor: ->
+		throw new Error('it is static class')
+
+class @debug
+
+	mode = false
+
+	@log: (v)->
+		if mode then console.log v
+		false
+
+	@active: (flg = true)->
+		mode = new Boolean(flg)
 
 	constructor: ->
 		throw new Error('it is static class')
