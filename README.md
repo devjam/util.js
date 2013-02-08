@@ -76,7 +76,7 @@ Util.array.setQuery(Array = Array.prototype) : Bool (add "q(id)" method)
 Util.QueryString():Object
 
 ### Util.consoleKill
-Util.consoleKill():void
+Util.consoleKill():void  
 console.log 無効化  
 
 ### console
