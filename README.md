@@ -1,6 +1,6 @@
 util.js
 =======
-util.js v1.2.4  
+util.js v 1.2.5  
 Copyright (c) 2013 SHIFTBRAIN Inc.  
 Licensed under the MIT license.  
 https://github.com/devjam  
@@ -75,9 +75,9 @@ Util.array.setQuery(Array = Array.prototype) : Bool (add "q(id)" method)
 ### Util.QueryString
 Util.QueryString():Object
 
-### debug
-debug.log(value)					: void (console.log)  
-debug.active(Bool = true) : Bool  
+### Util.consoleKill
+Util.consoleKill():void
+console.log 無効化  
 
 ### console
 consoleが無い場合に空のオブジェクト作成  
@@ -87,6 +87,9 @@ console.logでエラーが出る場合の対策
 ---
 
 ## HISTORY
+_2013.02.08 : v1.2.5_  
+- debug -> consoleKill  
+
 _2013.02.07 : v1.2.4_  
 - Util.window.scrollTop()追加  
 - Util.window.scrollBottom()追加  

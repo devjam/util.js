@@ -1,5 +1,5 @@
 ###
-util.js v1.2.4
+util.js v 1.2.5
 Copyright (c) 2013 SHIFTBRAIN Inc.
 Licensed under the MIT license.
 
@@ -58,9 +58,7 @@ Util.array.setQuery(Array = Array.prototype)	:Bool ary.q(id)
 
 Util.QueryString():Object
 
-## debug
-debug.log(value)					: void
-debug.active(Bool = true) : Bool
+Util.consoleKill():void
 
 ###
 
@@ -404,19 +402,8 @@ class @Util
 		return data
 	)(window.location.search.substr(1).split('&'))
 
-	constructor: ->
-		throw new Error('it is static class')
-
-class @debug
-
-	mode = false
-
-	@log: (v)->
-		if mode then console.log v
-		false
-
-	@active: (flg = true)->
-		mode = new Boolean(flg)
+	@consoleKill = ->
+		console.log = ->
 
 	constructor: ->
 		throw new Error('it is static class')
