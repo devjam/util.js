@@ -1,5 +1,5 @@
 ###
-util.js v 1.2.5
+util.js v 1.2.6
 Copyright (c) 2013 SHIFTBRAIN Inc.
 Licensed under the MIT license.
 
@@ -28,37 +28,39 @@ Util.UA.isPC						: Bool
 Util.UA.isTablet				: Bool
 Util.UA.isSmartPhone		: Bool
 
-Util.venderPrefix				:String
+Util.venderPrefix				: String
 
-Util.stats.show()				:void
-Util.stats.remove()			:void
+Util.stats.show()				: void
+Util.stats.remove()			: void
 
-Util.animationFrameDelta						:Number
-Util.animationFrameDelta.setDelta()	:void
+Util.animationFrameDelta						: Number
+Util.animationFrameDelta.setDelta()	: void
 
-Util.window.onResize()															:void (trigger resize event)
-Util.window.size(withUpdate = false)								:{width:Integer, height:Integer}
-Util.window.pageSize(withUpdate = false)						:{width:Integer, height:Integer}
-Util.window.scrollTop()															:Number
-Util.window.scrollBottom()													:Number
-Util.window.bindResize(callback)										:void
-Util.window.unbindResize(callback, isReset = false)	:void (isReset is unbind all)
+Util.window.onResize()															: void (trigger resize event)
+Util.window.size(withUpdate = false)								: {width:Integer, height:Integer}
+Util.window.pageSize(withUpdate = false)						: {width:Integer, height:Integer}
+Util.window.scrollTop()															: Number
+Util.window.scrollBottom()													: Number
+Util.window.bindResize(callback)										: void
+Util.window.unbindResize(callback, isReset = false)	: void (isReset is unbind all)
 
-Util.cursor.over																	:"mouseenter touchstart"
-Util.cursor.out 																	:"mouseleave touchend"
-Util.cursor.down 																	:"mousedown touchstart"
-Util.cursor.move 																	:"mousemove touchmouve"
-Util.cursor.up 																		:"mouseup touchend"
-Util.cursor.click 																:"mouseup touchend"
-Util.cursor.clientXY(e:MouseEvent or TouchEvent)	:{x:Number, y:Number}
-Util.cursor.pageXY(e:MouseEvent or TouchEvent)		:{x:Number, y:Number}
+Util.cursor.over																		: "mouseenter touchstart"
+Util.cursor.out 																		: "mouseleave touchend"
+Util.cursor.down 																		: "mousedown touchstart"
+Util.cursor.move 																		: "mousemove touchmouve"
+Util.cursor.up 																			: "mouseup touchend"
+Util.cursor.click 																	: "mouseup touchend"
+Util.cursor.clientXY(e:MouseEvent or TouchEvent)		: {x:Number, y:Number}
+Util.cursor.pageXY(e:MouseEvent or TouchEvent)			: {x:Number, y:Number}
 
-Util.array.setRemove(Array = Array.prototype)	:Bool ary.remove(value)
-Util.array.setQuery(Array = Array.prototype)	:Bool ary.q(id)
+Util.array.setRemove(Array = Array.prototype)				: Bool ary.remove(value)
+Util.array.setQuery(Array = Array.prototype)				: Bool ary.q(id)
 
-Util.QueryString():Object
+Util.now(get from server = true) : Date
 
-Util.consoleKill():void
+Util.QueryString() : Object
+
+Util.consoleKill() : void
 
 ###
 
@@ -371,6 +373,23 @@ class @Util
 					return ary_match
 			true
 	)()
+
+	@now = (isSrv = true) ->
+		xmlhttp = false
+		d = null
+		if ActiveXObject? # IE5, IE6
+			try
+				xmlhttp = new ActiveXObject("Msxml2.XMLHTTP") # MSXML3
+			catch e
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP") # MSXML2
+		if !xmlhttp and XDomainRequest? then xmlhttp = new XDomainRequest()
+		if !xmlhttp and XMLHttpRequest? then xmlhttp = new XMLHttpRequest()
+		if isSrv and xmlhttp
+			xmlhttp.open('HEAD', '#', false)
+			xmlhttp.send (null)
+			d = xmlhttp.getResponseHeader ('Date')
+		if d? then return new Date(d)
+		new Date()
 
 	@QueryString = ((a)->
 		unless a?

@@ -1,6 +1,6 @@
 util.js
 =======
-util.js v 1.2.5  
+util.js v 1.2.6  
 Copyright (c) 2013 SHIFTBRAIN Inc.  
 Licensed under the MIT license.  
 https://github.com/devjam  
@@ -72,6 +72,9 @@ Util.cursor.pageXY(MouseEvent or TouchEvent) : {x:Number, y:Number}
 Util.array.setRemove(Array = Array.prototype) : Bool (add "remove" method)  
 Util.array.setQuery(Array = Array.prototype) : Bool (add "q(id)" method)  
 
+### Util.now
+Util.now() : Date (get current date from server)  
+
 ### Util.QueryString
 Util.QueryString():Object
 
@@ -87,6 +90,9 @@ console.logでエラーが出る場合の対策
 ---
 
 ## HISTORY
+_2013.02.19 : v1.2.6_  
+- Util.now()追加  
+
 _2013.02.08 : v1.2.5_  
 - debug -> consoleKill  
 
