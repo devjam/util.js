@@ -91,7 +91,7 @@ console.logでエラーが出る場合の対策
 
 ## HISTORY
 _2013.03.14 : v1.2.7_  
-- Util.window.size() bugfix IE7 
+- Util.window.size() bugfix IE7 ...thanx pilssalgi
 
 _2013.02.19 : v1.2.6_  
 - Util.now()追加  
