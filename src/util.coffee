@@ -1,5 +1,5 @@
 ###
-util.js v 1.2.6
+util.js v 1.2.7
 Copyright (c) 2013 SHIFTBRAIN Inc.
 Licensed under the MIT license.
 
@@ -242,6 +242,20 @@ class @Util
 				isUpdate = (isUpdate | 1) ^ 1
 				width = win.width()
 				height = win.height()
+			if width <= 0 and height <= 0
+				if document.documentElement.clientWidth
+					width = document.documentElement.clientWidth
+				else if document.body.clientWidth
+					width = document.body.clientWidth
+				else if window.innerWidth
+					width = window.innerWidth
+
+				if document.documentElement.clientHeight
+					height = document.documentElement.clientHeight
+				else if document.body.clientHeight
+					height = document.body.clientHeight
+				else if window.innerHeight
+					height = window.innerHeight
 
 			width: width
 			height: height

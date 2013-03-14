@@ -1,60 +1,60 @@
 /*
-util.js v 1.2.6
+util.js v 1.2.7
 Copyright (c) 2013 SHIFTBRAIN Inc.
 Licensed under the MIT license.
 
 https://github.com/devjam
 
-Util.UA.browser         : String
-Util.UA.isIE            : Bool
-Util.UA.isIE6           : Bool
-Util.UA.isIE7           : Bool
-Util.UA.isIE8           : Bool
-Util.UA.isIE9           : Bool
-Util.UA.isLtIE9         : Bool
-Util.UA.isIOS           : Bool
-Util.UA.isIPhone        : Bool
-Util.UA.isIPad          : Bool
-Util.UA.isIPhone4       : Bool
-Util.UA.isIPad3         : Bool
-Util.UA.isAndroid       : Bool
-Util.UA.isAndroidMobile : Bool
-Util.UA.isChrome        : Bool
-Util.UA.isSafari        : Bool
-Util.UA.isMozilla       : Bool
-Util.UA.isWebkit        : Bool
-Util.UA.isOpera         : Bool
-Util.UA.isPC            : Bool
-Util.UA.isTablet        : Bool
-Util.UA.isSmartPhone    : Bool
+Util.UA.browser					: String
+Util.UA.isIE						: Bool
+Util.UA.isIE6						: Bool
+Util.UA.isIE7						: Bool
+Util.UA.isIE8						: Bool
+Util.UA.isIE9						: Bool
+Util.UA.isLtIE9					: Bool
+Util.UA.isIOS						: Bool
+Util.UA.isIPhone				: Bool
+Util.UA.isIPad					: Bool
+Util.UA.isIPhone4				: Bool
+Util.UA.isIPad3					: Bool
+Util.UA.isAndroid				: Bool
+Util.UA.isAndroidMobile	: Bool
+Util.UA.isChrome				: Bool
+Util.UA.isSafari				: Bool
+Util.UA.isMozilla				: Bool
+Util.UA.isWebkit				: Bool
+Util.UA.isOpera					: Bool
+Util.UA.isPC						: Bool
+Util.UA.isTablet				: Bool
+Util.UA.isSmartPhone		: Bool
 
-Util.venderPrefix       : String
+Util.venderPrefix				: String
 
-Util.stats.show()       : void
-Util.stats.remove()     : void
+Util.stats.show()				: void
+Util.stats.remove()			: void
 
-Util.animationFrameDelta            : Number
-Util.animationFrameDelta.setDelta() : void
+Util.animationFrameDelta						: Number
+Util.animationFrameDelta.setDelta()	: void
 
-Util.window.onResize()                              : void (trigger resize event)
-Util.window.size(withUpdate = false)                : {width:Integer, height:Integer}
-Util.window.pageSize(withUpdate = false)            : {width:Integer, height:Integer}
-Util.window.scrollTop()                             : Number
-Util.window.scrollBottom()                          : Number
-Util.window.bindResize(callback)                    : void
-Util.window.unbindResize(callback, isReset = false) : void (isReset is unbind all)
+Util.window.onResize()															: void (trigger resize event)
+Util.window.size(withUpdate = false)								: {width:Integer, height:Integer}
+Util.window.pageSize(withUpdate = false)						: {width:Integer, height:Integer}
+Util.window.scrollTop()															: Number
+Util.window.scrollBottom()													: Number
+Util.window.bindResize(callback)										: void
+Util.window.unbindResize(callback, isReset = false)	: void (isReset is unbind all)
 
-Util.cursor.over                                    : "mouseenter touchstart"
-Util.cursor.out                                     : "mouseleave touchend"
-Util.cursor.down                                    : "mousedown touchstart"
-Util.cursor.move                                    : "mousemove touchmouve"
-Util.cursor.up                                      : "mouseup touchend"
-Util.cursor.click                                   : "mouseup touchend"
-Util.cursor.clientXY(e:MouseEvent or TouchEvent)    : {x:Number, y:Number}
-Util.cursor.pageXY(e:MouseEvent or TouchEvent)      : {x:Number, y:Number}
+Util.cursor.over																		: "mouseenter touchstart"
+Util.cursor.out 																		: "mouseleave touchend"
+Util.cursor.down 																		: "mousedown touchstart"
+Util.cursor.move 																		: "mousemove touchmouve"
+Util.cursor.up 																			: "mouseup touchend"
+Util.cursor.click 																	: "mouseup touchend"
+Util.cursor.clientXY(e:MouseEvent or TouchEvent)		: {x:Number, y:Number}
+Util.cursor.pageXY(e:MouseEvent or TouchEvent)			: {x:Number, y:Number}
 
-Util.array.setRemove(Array = Array.prototype)       : Bool ary.remove(value)
-Util.array.setQuery(Array = Array.prototype)        : Bool ary.q(id)
+Util.array.setRemove(Array = Array.prototype)				: Bool ary.remove(value)
+Util.array.setQuery(Array = Array.prototype)				: Bool ary.q(id)
 
 Util.now(get from server = true) : Date
 
@@ -274,6 +274,22 @@ Util.consoleKill() : void
             isUpdate = (isUpdate | 1) ^ 1;
             width = win.width();
             height = win.height();
+          }
+          if (width <= 0 && height <= 0) {
+            if (document.documentElement.clientWidth) {
+              width = document.documentElement.clientWidth;
+            } else if (document.body.clientWidth) {
+              width = document.body.clientWidth;
+            } else if (window.innerWidth) {
+              width = window.innerWidth;
+            }
+            if (document.documentElement.clientHeight) {
+              height = document.documentElement.clientHeight;
+            } else if (document.body.clientHeight) {
+              height = document.body.clientHeight;
+            } else if (window.innerHeight) {
+              height = window.innerHeight;
+            }
           }
           return {
             width: width,
